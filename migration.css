@@ -1,0 +1,115 @@
+#migration_control {
+	margin-top: 30px;
+	padding-bottom: 20px;
+	border-bottom: 1px dotted #ccc;
+}
+
+/* =================================================
+// マイグレータのリストに関するスタイル
+================================================= */
+#migrations, #migration_info {
+	float: left;
+	padding-top: 10px;
+}
+
+#migrations {
+	width: 15%;
+}
+
+/* =================================================
+// マイグレータの情報表示に関するスタイル
+================================================= */
+#migration_info {
+	width: 83%;
+	padding-left: 1%;
+}
+
+#base {
+	margin-bottom: 30px;
+}
+
+#details {
+	clear: both;
+	padding: 15px 20px;
+	border: 1px solid #aaa;
+	border-radius: 3px;
+}
+
+#migration_info h4 {
+	clear: both;
+}
+
+#modufied {
+	clear: both;
+}
+
+#modufied h4 {
+	margin-top: 20px;
+	padding-left: 5px;
+	border-left: 5px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+
+#modufied ul li {
+	font-family: consolas;
+}
+
+/* =================================================
+// 全体で共通して使用するスタイル
+================================================= */
+.tab {
+	padding: 8px 10px;
+	font-size: 120%;
+	padding-bottom: 1px;
+	background: #f5f5f5;
+	text-decoration: none;
+	border: 1px solid #ccc;
+	border-bottom: none;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.tab.selected {
+	background: #fff;
+	border: 1px solid #aaa;
+	border-bottom: 2px solid #fff;
+	z-index: 10;
+}
+
+.selected,
+.selected a {
+	text-decoration: none;
+	font-weight: bold;
+	color: #333;
+	cursor: default;	
+}
+
+.selected:hover,
+.selected a:hover {
+	color: #333;
+}
+
+span.add,
+span.modufy,
+span.remove {
+	padding: 1px 8px;
+	border-radius: 10px;
+	font-weight: bold;
+	box-shadow: 0 0 3px 1px #ddd;
+	font-family: consolas;
+}
+
+span.add {
+	background: #cfc;
+	color: #353;
+}
+
+span.modufy {
+	background: #ccf;
+	color: #338;
+}
+
+span.remove {
+	background: #fcc;
+	color: #833;
+}
