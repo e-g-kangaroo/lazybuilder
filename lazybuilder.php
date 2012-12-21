@@ -7,19 +7,20 @@ Author URI: http://www.clustium.com
 */
 
 $lazy_builder = new LazyBuilder;
+include_once dirname(__FILE__). '/lazybuilder/taxonomy.php';
 
 class LazyBuilder {
 	function __construct() {
 		add_action('init', array($this, 'init'));
 		add_action('admin_head', array($this, 'head'), 11);
 		add_action('admin_menu', array($this, 'option'));
-		add_action('wp_ajax_lazy_builder_up', array($this, 'lazy_builder_up'));
-		add_action('wp_ajax_lazy_builder_down', array($this, 'lazy_builder_down'));
+		add_action('wp_ajax_lazy_builder_up', array($this, 'call_up'));
+		add_action('wp_ajax_lazy_builder_down', array($this, 'call_down'));
 	}
 	
 	function init() {
 		if (get_option('current_lazy_builder') == false) {
-			update_option('current_lazy_builder', '1');
+			update_option('current_lazy_builder', 0);
 		}
 	}
 	
@@ -38,20 +39,26 @@ class LazyBuilder {
 		}
 	
 		$build_files = array();
-		$current = get_option('lazy_current_builder');
+		$current = get_option('current_lazy_builder');
 	
 		include_once dirname(__FILE__) . '/builder_view.php';
 	}
 	
-	function lazy_builder_up() {
+	function call_up() {
 		$current = get_option('current_lazy_builder');
+		$next = $current + 1;
 		
 		$latest = 10;
+		include_once dirname(__FILE__) . '/builders/'. $next. '.php';
+		$class = 'LazyBuilder_'. $next;
+		
+		$builder = new $class();
+		$builder->up();
 	
 		if ($latest <= $current) {
 			$json = 'Latest builder.';
 		} else {
-			update_option('current_lazy_builder', (int) $current + 1);
+			update_option('current_lazy_builder', $next);
 			$json = 'Builder up to '. get_option('current_lazy_builder');
 		}
 		
@@ -60,10 +67,16 @@ class LazyBuilder {
 	}
 	
 	
-	function lazy_builder_down() {
+	function call_down() {
 		$current = get_option('current_lazy_builder');
 		
-		if (1 >= $current) {
+		include_once dirname(__FILE__) . '/builders/'. $current. '.php';
+		$class = 'LazyBuilder_'. $current;
+		
+		$builder = new $class();
+		$builder->down();
+	
+		if (0 >= $current) {
 			$json = 'Oldest builder.';
 		} else {
 			update_option('current_lazy_builder', (int) $current - 1);

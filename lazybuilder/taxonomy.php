@@ -2,7 +2,7 @@
 
 class LazyBuilder_Taxonomy
 {
-	public function add($taxonomy, array $terms)
+	public static function add($taxonomy, array $terms)
 	{
 		$term_default = array(
 			'description' => '',
@@ -20,7 +20,7 @@ class LazyBuilder_Taxonomy
 		}
 	}
 
-	public function remove($taxonomy, array $terms)
+	public static function remove($taxonomy, array $terms)
 	{
 		foreach ( $terms as $term_identify )
 		{
