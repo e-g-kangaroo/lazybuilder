@@ -1,21 +1,33 @@
 jQuery(function() {
-    jQuery('#migrations ul li a[href=#]').click(function(){
+	jQuery('#lazy_builder_up').click(function () {
 		jQuery.ajax({
 			url: ajaxurl,
 			data: {
-				action: 'migration_file_read',
-				file: jQuery(this).attr('id')
+				action: 'lazy_builder_up',
 			},
 			type: 'post',
 			dataType: 'json',
 			success: function(json){
-				alert(json.categories);
-				alert(json.tags);
-				alert(json.regions);
-				alert(json.pages);
+				alert(json);
 			}
 		});
 
         return false;
-    });
+	});
+
+	jQuery('#lazy_builder_down').click(function () {
+		jQuery.ajax({
+			url: ajaxurl,
+			data: {
+				action: 'lazy_builder_down',
+			},
+			type: 'post',
+			dataType: 'json',
+			success: function(json){
+				alert(json);
+			}
+		});
+
+        return false;
+	});
 });
