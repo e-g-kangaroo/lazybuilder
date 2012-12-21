@@ -6,9 +6,9 @@ Author: clustium Inc.
 Author URI: http://www.clustium.com
 */
 
-$lazy_builder = new Lazy_Builder_Core;
+$lazy_builder = new LazyBuilder;
 
-class Lazy_Builder_Core {
+class LazyBuilder {
 	function __construct() {
 		add_action('init', array($this, 'init'));
 		add_action('admin_head', array($this, 'head'), 11);
@@ -24,8 +24,8 @@ class Lazy_Builder_Core {
 	}
 	
 	function head() {
-	  echo '<link rel="stylesheet" type="text/css" media="all" href="'. plugin_dir_url( __FILE__ ). '/builder.css" />';
-	  echo '<script type="text/javascript" src="'. plugin_dir_url( __FILE__ ). '/builder.js"></script>';
+		echo '<link rel="stylesheet" type="text/css" media="all" href="'. plugin_dir_url( __FILE__ ). '/builder.css" />';
+		echo '<script type="text/javascript" src="'. plugin_dir_url( __FILE__ ). '/builder.js"></script>';
 	}
 	
 	function option() {
