@@ -1,8 +1,9 @@
 <?php
 /*
-Plugin Name: Wordpress DB builder
+Plugin Name: lazy builder
 Description: マイグレータライクに動作する、データベースのビルダーです。
-Author: clustium. Inc
+Author: clustium Inc.
+Author URI: http://www.clustium.com
 */
 
 /**
