@@ -4,8 +4,8 @@
 
 	<div id="migration_control">
 		<h3>Current builder : <?php echo $current; ?></h3>
-		<button id="update" class="button-primary">Up</button>
-		<button id="update" class="button-primary">Down</button>
+		<button id="lazy_builder_up" class="button-primary">Up</button>
+		<button id="lazy_builder_down" class="button-primary">Down</button>
 	</div>
 
 	<div id="migrations">
@@ -32,7 +32,7 @@
 		<a href="#" class="tab">Down</a>
 
 		<div id="details">
-			<a href="#" class="selected">Modufied</a>
+			<a href="#" class="selected">Modified</a>
 			<a href="#" class="">Executed code</a>
 
 			<div id="modufied">
