@@ -10,6 +10,8 @@ $lazy_builder = new LazyBuilder;
 include_once dirname(__FILE__). '/lazybuilder/taxonomy.php';
 
 class LazyBuilder {
+	const OPT_CURRENT = 'lazy_builder_count';
+
 	function __construct() {
 		add_action('init', array($this, 'init'));
 		add_action('admin_head', array($this, 'head'), 11);
@@ -19,8 +21,8 @@ class LazyBuilder {
 	}
 	
 	function init() {
-		if (get_option('current_lazy_builder') == false) {
-			update_option('current_lazy_builder', 0);
+		if (get_option(self::OPT_CURRENT) == false) {
+			update_option(self::OPT_CURRENT, 0);
 		}
 	}
 	
@@ -39,48 +41,64 @@ class LazyBuilder {
 		}
 	
 		$build_files = array();
-		$current = get_option('current_lazy_builder');
+		$current = get_option(self::OPT_CURRENT);
 	
 		include_once dirname(__FILE__) . '/builder_view.php';
 	}
 	
 	function call_up() {
-		$current = get_option('current_lazy_builder');
+		$current = get_option(self::OPT_CURRENT);
 		$next = $current + 1;
-		
-		$latest = 10;
-		include_once dirname(__FILE__) . '/builders/'. $next. '.php';
-		$class = 'LazyBuilder_'. $next;
-		
-		$builder = new $class();
-		$builder->up();
-	
-		if ($latest <= $current) {
-			$json = 'Latest builder.';
-		} else {
-			update_option('current_lazy_builder', $next);
-			$json = 'Builder up to '. get_option('current_lazy_builder');
+
+		if ( ! file_exists(dirname(__FILE__) . '/builders/'. $next. '.php')) {
+			echo json_encode('Not exists builder file.');
+			die();
 		}
+
+		include_once dirname(__FILE__) . '/builders/'. $next. '.php';
+
+		$class = 'LazyBuilder_'. $next;
+		$builder = new $class();
 		
-		echo json_encode($json);
+		try {
+			$builder->up();
+		} catch (Exception $e) {
+			echo json_encode($e->getMessage());
+			die();
+		}
+
+		update_option(self::OPT_CURRENT, $next);
+	
+		echo json_encode('Builder up to '. get_option(self::OPT_CURRENT));
 		die();
 	}
 	
 	
 	function call_down() {
-		$current = get_option('current_lazy_builder');
+		$current = get_option(self::OPT_CURRENT);
 		
+		if ( ! file_exists(dirname(__FILE__) . '/builders/'. $current. '.php')) {
+			echo json_encode('Not exists builder file.');
+			die();
+		}
+
 		include_once dirname(__FILE__) . '/builders/'. $current. '.php';
 		$class = 'LazyBuilder_'. $current;
-		
+
 		$builder = new $class();
-		$builder->down();
-	
+
+		try {
+			$builder->down();
+		} catch (Exception $e) {
+			echo json_encode($e->getMessage());
+			die();
+		}
+
 		if (0 >= $current) {
 			$json = 'Oldest builder.';
 		} else {
-			update_option('current_lazy_builder', (int) $current - 1);
-			$json = 'Builder down to '. get_option('current_lazy_builder');
+			update_option(self::OPT_CURRENT, (int) $current - 1);
+			$json = 'Builder down to '. get_option(self::OPT_CURRENT);
 		}
 		
 		echo json_encode($json);

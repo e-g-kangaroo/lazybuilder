@@ -22,7 +22,7 @@
 	
 	<div id="migration_info">
 		<div id="base">
-			<h4>Builder ID : 02</h4>
+			<h4>Builder ID : <?php echo $current; ?></h4>
 			<h4>Title : <?php echo $info['title']; ?></h4>
 			<h4>Description : <?php echo $info['description']; ?></h4>
 			<h4>Date created : <?php echo $info['date_created']; ?></h4>
