@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: lazy builder
-Description: マイグレータライクに動作する、データベースのビルダーです。
+Description: Wordpress database builder like migrations.
 Author: clustium Inc.
 Author URI: http://www.clustium.com
 */
