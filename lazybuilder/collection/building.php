@@ -29,7 +29,7 @@ class LazyBuilder_Collection_Building implements Iterator {
 				$num = substr($file, 0, strpos($file, '-'));
 
 				if ( $ext == 'php' and preg_match('/[0-9]{3}/', $num) ) {
-					$this->buildings[] = LazyBuilder_Building::make('filename', array('file' => $file, 'config' => $this->config));
+					array_unshift($this->buildings, LazyBuilder_Building::make('filename', array('file' => $file, 'config' => $this->config)));
 				} 
 			}
 		} else {
