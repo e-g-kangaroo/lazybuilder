@@ -11,12 +11,23 @@
 	<div id="migrations">
 		<h3>Build files</h3>
 		<ul>
-			<?php foreach ($build_files as $b) : ?>
-			<li class="'. $m->class. '">
-				<a href="#" id="<?php echo $b->name?>"><?php echo $b->name; ?></a>
-				<?php if (strpos($b->class, 'current') !== FALSE) echo ' ←Current'; ?>
+<?php
+			try {
+			$build_files = new LazyBuilder_Collection_Building();
+			foreach ($build_files as $b) :
+?>
+			<li>
+				<?php echo $b->num_str ?>: <a href="#" id="<?php echo $b->num ?>"><?php echo $b->name ?></a>
 			</li>
-			<?php endforeach; ?>
+<?php
+			endforeach;
+
+			} catch ( Exception $e ) {
+?>
+			<li class="error">Error</li>
+<?php
+			}
+?>
 		</ul>
 	</div>
 	

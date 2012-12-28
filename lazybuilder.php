@@ -10,6 +10,7 @@ $lazy_builder = new LazyBuilder;
 
 include_once dirname(__FILE__). '/lazybuilder/listener.php';
 include_once dirname(__FILE__). '/lazybuilder/taxonomy.php';
+include_once dirname(__FILE__). '/lazybuilder/collection/building.php';
 
 class LazyBuilder {
 	const OPT_CURRENT = 'lazy_builder_count';
@@ -105,5 +106,10 @@ class LazyBuilder {
 		
 		echo json_encode($json);
 		die();
+	}
+
+	public static function path()
+	{
+		return plugin_dir_path(__FILE__);
 	}
 }
