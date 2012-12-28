@@ -28,6 +28,18 @@ class LazyBuilder_Listener {
 	
 	public function parse_html() {
 		$html = '';
+		
+		foreach ($this->notificateions as $n) {
+			if ( ! isset($n['type'])) continue;
+
+			if (in_array($n['type'], array('add', 'remove', 'modify'))) {
+				$html .= '<li>';
+				$html .= '<span class="'. $n['type']. '">'. $n['change_type']. '</span>';
+				$html .= '</li>';
+			}
+		}
+		
+		return $html;
 	}
 	
 	public function set_dry_run($flag) {
