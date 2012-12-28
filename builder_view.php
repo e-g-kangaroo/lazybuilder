@@ -32,11 +32,9 @@
 		<a href="#" class="tab">Down</a>
 
 		<div id="details">
-			<a href="#" class="selected">Modified</a>
-			<a href="#" class="">Executed code</a>
 
 			<div id="modufied">
-				<?php foreach ($builders as $build_title => $modifications) : ?>
+				<?php foreach (array() as $build_title => $modifications) : ?>
 					<h4><?php echo ucwords($build_title); ?></h4>
 					<ul>
 						<?php $empty = true; foreach ($modifications as $m) : $empty = false; ?>

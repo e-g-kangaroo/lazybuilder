@@ -2,7 +2,7 @@
 
 class LazyBuilder_Taxonomy {
 
-	public static function add($taxonomy, array $terms) {
+	public static function add($taxonomy, array $terms, $dry_run = false) {
 
 		if ( ! taxonomy_exists($taxonomy)) {
 			throw new Exception(__('Taxonomy doesn\'t exist.'));
@@ -25,11 +25,21 @@ class LazyBuilder_Taxonomy {
 			$name = $term['name'];
 			unset($term['name']);
 
+			$listener = LazyBuilder_Listener::instance();
+
+			$listener->set_dry_run((bool) $dry_run);
+			
+			if ($listener->dry_run()) { 
+				$listener->notify('add', array_merge($terms, array('taxnomy' => $taxonomy)));
+				return;
+			}
+			
 			$result = wp_insert_term($name, $taxonomy, $term);
 
 			if ( is_wp_error($result) ) {
 				throw new Exception($result->get_error_message());
 			}
+
 		}
 	}
 

@@ -7,6 +7,8 @@ Author URI: http://www.clustium.com
 */
 
 $lazy_builder = new LazyBuilder;
+
+include_once dirname(__FILE__). '/lazybuilder/listener.php';
 include_once dirname(__FILE__). '/lazybuilder/taxonomy.php';
 
 class LazyBuilder {
@@ -30,7 +32,7 @@ class LazyBuilder {
 		echo '<link rel="stylesheet" type="text/css" media="all" href="'. plugin_dir_url( __FILE__ ). '/builder.css" />';
 		echo '<script type="text/javascript" src="'. plugin_dir_url( __FILE__ ). '/builder.js"></script>';
 	}
-	
+
 	function option() {
 		add_options_page('Lazy builder.', 'Lazy builder', 'manage_options', 'lazy-builder', array($this, 'view'));
 	}
