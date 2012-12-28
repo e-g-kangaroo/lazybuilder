@@ -10,6 +10,7 @@ $lazy_builder = new LazyBuilder;
 
 include_once dirname(__FILE__). '/lazybuilder/listener.php';
 include_once dirname(__FILE__). '/lazybuilder/taxonomy.php';
+include_once dirname(__FILE__). '/lazybuilder/building.php';
 include_once dirname(__FILE__). '/lazybuilder/collection/building.php';
 
 class LazyBuilder {
