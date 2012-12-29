@@ -18,12 +18,16 @@ class LazyBuilder_Listener {
 		return self::$instance;
 	}
 
-	public function notify($type, $args) {
+	public function notify($type, $lazybuilder, $args) {
 		if ( ! isset($type) ) {
 			throw new Exception(__('\'type\' is required.'));
 		}
 
-		$this->notifications[] = array_merge($args, array('type' => $type));
+		if ( ! isset($lazybuilder) ) {
+			throw new Exception(__('\'lazybuilder\' is required.'));
+		}
+
+		$this->notifications[] = array_merge($args, array('type' => $type, 'lazybuilder' => $lazybuilder));
 	}
 	
 	public function parse_html() {
@@ -31,18 +35,39 @@ class LazyBuilder_Listener {
 		
 		foreach ($this->notifications as $n) {
 			if ( ! isset($n['type'])) continue;
-
-			if (in_array($n['type'], array('add', 'remove', 'modify'))) {
-				$html .= '<li>';
-				$html .= '<span class="'. $n['type']. '">'. $n['type']. '</span>';
-				$html .= $n['taxonomy'];
-				$html .= '</li>';
+			
+			$method = 'parse_html_'. strtolower($n['lazybuilder']);
+			
+			if ( ! method_exists(__CLASS__ , $method)) {
+				throw new Exception(__('Not define '. $method. '()'));
 			}
+
+			if ( ! in_array($n['type'], array('add', 'remove', 'modify'))) {
+				throw new Exception(__('Invalid type. This type is : '. $n['type']));
+			}
+
+			$html .= '<li>';
+			$html .= '<span class="'. $n['type']. '">'. $n['type']. '</span>';
+			$html .= $this->$method($n);
+			$html .= '</li>';
 		}
 		
 		return $html;
 	}
 	
+	public function parse_html_taxonomy($args) {
+		$html = '';
+		unset($args['lazybuilder'], $args['type']);
+
+		foreach ($args as $key => $val) {
+			if (empty($val)) continue;
+			
+			$html .= ucwords($key). ' : '. $val. ' , ';
+		}
+
+		return $html;
+	}
+
 	public function set_dry_run($flag) {
 		if ( ! is_bool($flag)) {
 			throw new InvalidArgumentException('set_dry_run function only accepts boolean. Input was: '. $flag);
