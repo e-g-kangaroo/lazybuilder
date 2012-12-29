@@ -51,8 +51,11 @@ class LazyBuilder {
 	
 		$build_files = array();
 		$collection = new LazyBuilder_Collection_Building();
-		$current = get_option(self::OPT_CURRENT);
-		$current = $collection->get_building($current);
+		$current_num = get_option(self::OPT_CURRENT);
+
+		if ( $current_num ) {
+			$current = $collection->get_building();
+		}
 
 		include_once dirname(__FILE__) . '/builder_view.php';
 	}
