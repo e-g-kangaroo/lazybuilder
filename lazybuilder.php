@@ -151,6 +151,10 @@ class LazyBuilder {
 			$class .= '_'. ucwords($val);
 		}
 		
+		// get listener instance
+		$listener = LazyBuilder_Listener::instance();
+		$listener->set_dry_run(true);
+
 		try {
 			include_once $path;
 			$builder = new $class();
@@ -159,16 +163,13 @@ class LazyBuilder {
 			die();
 		}
 
-		// dry run
+		// building (dry run)
 		try {
-			$builder->$type(true);
+			$builder->$type();
 		} catch (Exception $e) {
 			echo json_encode($e->getMessage());
 			die();
 		}
-
-		// get listener instance
-		$listener = LazyBuilder_Listener::instance();
 
 		echo json_encode($listener->parse_html());
 		die();

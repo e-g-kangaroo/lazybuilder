@@ -2,7 +2,7 @@
 
 class LazyBuilder_Taxonomy {
 
-	public static function add($taxonomy, array $terms, $dry_run = false) {
+	public static function add($taxonomy, array $terms) {
 
 		if ( ! taxonomy_exists($taxonomy)) {
 			throw new Exception(__('Taxonomy doesn\'t exist.'));
@@ -27,11 +27,9 @@ class LazyBuilder_Taxonomy {
 
 			$listener = LazyBuilder_Listener::instance();
 
-			$listener->set_dry_run((bool) $dry_run);
-			
 			if ($listener->dry_run()) { 
-				$listener->notify('add', array_merge($terms, array('taxonomy' => $taxonomy)));
-				return;
+				$listener->notify('add', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy), $term));
+				continue;
 			}
 			
 			$result = wp_insert_term($name, $taxonomy, $term);
@@ -50,13 +48,25 @@ class LazyBuilder_Taxonomy {
 		}
 
 		foreach ( $terms as $term_identify ) {
+			if ( is_string($term_identify)) {
+				$term = get_term_by('slug', $term_identify, $taxonomy);
 
-			if ( is_string($term_identify) ) {
-				$term_id = get_term_by('slug', $term_identify, $taxonomy)->term_id;
+				if (empty($term)) {
+					throw new Exception('Not exists '. $taxonomy. '. This term identify is : \' '. $term_identify. ' \'');
+				}
+
+				$term_id = $term->term_id;
 			} elseif ( is_int($term_identify) ) {
 				$term_id = $term_identify;
 			} else {
 				throw new Exception('Invalid term identify.');
+			}
+
+			$listener = LazyBuilder_Listener::instance();
+
+			if ($listener->dry_run()) { 
+				$listener->notify('remove', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy)));
+				continue;
 			}
 
 			$result = wp_delete_term($term_id, $taxonomy);

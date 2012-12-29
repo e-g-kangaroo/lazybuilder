@@ -1,17 +1,17 @@
 <?php
 class Building_Test {
 
-	public function up($dry_run = false) {
+	public function up() {
 		LazyBuilder_Taxonomy::add('category', array(
 			'cat_a' => array(
 				'name' => 'なまえ',
 			)
-		), $dry_run);
+		));
 	}
 	
-	public function down($dry_run = false) {
+	public function down() {
 		LazyBuilder_Taxonomy::remove('category', array(
 			'cat_a'
-		), $dry_run);
+		));
 	}
 }
