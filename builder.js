@@ -1,5 +1,5 @@
 jQuery(function() {
-	draw_modification(jQuery('#builder_info_path').val(), 'up');
+	draw_modification(jQuery('#builder_num').val(), 'up');
 
 	jQuery('#lazy_builder_up').click(function () {
 		jQuery.ajax({
@@ -34,12 +34,12 @@ jQuery(function() {
 	});
 });
 
-function draw_modification(path, type) {
+function draw_modification(num, type) {
 	jQuery.ajax({
 		url: ajaxurl,
 		data: {
 			action: 'lazy_builder_dry_run',
-			path: path,
+			num: num,
 			type: type
 		},
 		type: 'post',

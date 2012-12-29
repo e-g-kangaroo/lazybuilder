@@ -136,42 +136,29 @@ class LazyBuilder {
 
 	public function dry_run() {
 		// validation [s]
-		if ( ! isset($_POST['path']) || ! isset($_POST['type'])) {
+		if ( ! isset($_POST['num']) || ! isset($_POST['type'])) {
 			echo json_encode('error : ');
 			die();
 		}
 		
-		$path = $_POST['path'];
+		$num = (int) $_POST['num'];
 		$type = $_POST['type'];
 
 		if ( ! in_array($type, array('up', 'down'))) {
 			echo json_encode('Invalid type.');
 			die();
 		}
-
-		if ( ! file_exists($path)) {
-			echo json_encode('Not exists builder file. Request file is : '. $path);
-			die();
-		}
 		// validation [e]
 
-		// make building class.
-		$class = 'Building';
-		$basename = preg_replace('/.[^.]+$/', '', basename($path));
-
-		foreach (explode('-', $basename) as $key => $val) {
-			if ($key == 0) continue;
-			
-			$class .= '_'. ucwords($val);
-		}
-		
 		// get listener instance
 		$listener = LazyBuilder_Listener::instance();
 		$listener->set_dry_run(true);
 
 		try {
-			include_once $path;
-			$builder = new $class();
+			$buildings = new LazyBuilder_Collection_Building();
+			$buildings->get_building($num)->include_building();
+			$classname = $buildings->get_building($num)->classname;
+			$building = new $classname();
 		} catch (Exception $e) {
 			echo json_encode($e->getMessage());
 			die();
@@ -179,7 +166,7 @@ class LazyBuilder {
 
 		// building (dry run)
 		try {
-			$builder->$type();
+			$building->$type();
 		} catch (Exception $e) {
 			echo json_encode($e->getMessage());
 			die();

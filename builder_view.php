@@ -51,7 +51,7 @@
 			<ul></ul>
 		</div>
 
-		<input type="hidden" id="builder_info_path" value="<?php echo $current->filepath; ?>">
+		<input type="hidden" id="builder_num" value="<?php echo $current->num + 1; ?>">
 
 	</div>
 </div>
