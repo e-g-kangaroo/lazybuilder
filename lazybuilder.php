@@ -8,11 +8,6 @@ Author URI: http://www.clustium.com
 
 $lazy_builder = new LazyBuilder;
 
-include_once dirname(__FILE__). '/lazybuilder/listener.php';
-include_once dirname(__FILE__). '/lazybuilder/taxonomy.php';
-include_once dirname(__FILE__). '/lazybuilder/building.php';
-include_once dirname(__FILE__). '/lazybuilder/collection/building.php';
-
 class LazyBuilder {
 
 	const OPT_CURRENT = 'lazy_builder_count';
@@ -27,11 +22,27 @@ class LazyBuilder {
 		add_action('wp_ajax_lazy_builder_up', array($this, 'call_up'));
 		add_action('wp_ajax_lazy_builder_down', array($this, 'call_down'));
 		add_action('wp_ajax_lazy_builder_dry_run', array($this, 'dry_run'));
+
+		spl_autoload_register(array($this, 'load'));
 	}
 	
 	function init() {
 		if (get_option(self::OPT_CURRENT) == false) {
 			update_option(self::OPT_CURRENT, 0);
+		}
+	}
+	
+	function load($class)
+	{
+		static $classes = array(
+			'LazyBuilder_Listener' => '/lazybuilder/listener.php',
+			'LazyBuilder_Taxonomy' => '/lazybuilder/taxonomy.php',
+			'LazyBuilder_Building' => '/lazybuilder/building.php',
+			'LazyBuilder_Collection_Building' => '/lazybuilder/collection/building.php',
+		);
+
+		if ( isset($classes[$class]) ) {
+			include_once(self::path() . $classes[$class]);
 		}
 	}
 	
