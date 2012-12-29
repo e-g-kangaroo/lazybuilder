@@ -1,5 +1,6 @@
 <?php
-class LazyBuilder_3 {
+class Building_Delete_Categories {
+
 	public function up() {
 		LazyBuilder_Taxonomy::add('category', array(
 			'cat_g' => array(

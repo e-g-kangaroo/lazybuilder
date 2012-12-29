@@ -1,5 +1,6 @@
 <?php
-class LazyBuilder_2 {
+class Building_Add_Categories {
+
 	public function up() {
 		LazyBuilder_Taxonomy::add('category', array(
 			'cat_b' => array(
