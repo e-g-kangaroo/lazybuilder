@@ -21,6 +21,7 @@ class LazyBuilder {
 		add_action('admin_menu', array($this, 'option'));
 		add_action('wp_ajax_lazy_builder_up', array($this, 'call_up'));
 		add_action('wp_ajax_lazy_builder_down', array($this, 'call_down'));
+		add_action('wp_ajax_lazy_builder_dry_run', array($this, 'dry_run'));
 	}
 	
 	function init() {
@@ -45,7 +46,7 @@ class LazyBuilder {
 	
 		$build_files = array();
 		$current = get_option(self::OPT_CURRENT);
-	
+		
 		include_once dirname(__FILE__) . '/builder_view.php';
 	}
 	
@@ -108,8 +109,25 @@ class LazyBuilder {
 		die();
 	}
 
-	public static function path()
-	{
+	public static function path() {
 		return plugin_dir_path(__FILE__);
+	}
+
+	public function dry_run() {
+		if ( ! isset($_POST['builder']) || ! isset($_POST['type'])) {
+			echo json_encode('error : ');
+			die();
+		}
+		
+		$builder = $_POST['builder'];
+		$type = $_POST['type'];
+
+		if ( ! file_exists(dirname(__FILE__) . '/builders/'. $builder. '.php')) {
+			echo json_encode('Not exists builder file.');
+			die();
+		}
+
+		echo json_encode($_POST['type']);
+		die();
 	}
 }
