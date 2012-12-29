@@ -3,24 +3,25 @@
 class LazyBuilder_Collection_Building implements Iterator {
 
 	protected $config = array();
-	protected $builders = array();
+	protected $buildings = array();
 	private $_pos = 0;
 
 	public function __construct($config = array()) {
 
 		$default = array(
-			'builders_dir' => LazyBuilder::path().'buildings'
+			'buildings_dir' => LazyBuilder::path().'buildings',
+			'class_prefix' => 'Building_'
 		);
 
 		$this->config = array_merge($default, $config);
 
-		$this->load_builders();
+		$this->load_buildings();
 	}
 
-	protected function load_builders() {
+	protected function load_buildings() {
 
-		$dir = $this->config['builders_dir'];
-		$this->builders = array();
+		$dir = $this->config['buildings_dir'];
+		$this->buildings = array();
 
 		if ( is_dir($dir) and $dh = opendir($dir) ) {
 			while (($file = readdir($dh)) !== false) {
@@ -28,13 +29,7 @@ class LazyBuilder_Collection_Building implements Iterator {
 				$num = substr($file, 0, strpos($file, '-'));
 
 				if ( $ext == 'php' and preg_match('/[0-9]{3}/', $num) ) {
-					$name = ucfirst(substr($file, strpos($file, '-') + 1, strrpos($file, '.') - strpos($file, '-') - 1));
-					$this->builders[] = (object) array(
-						'num' => (int) $num,
-						'num_str' => $num,
-						'name' => $name,
-						'filepath' => $dir.'/'.$file
-					);
+					array_unshift($this->buildings, LazyBuilder_Building::make('filename', array('file' => $file, 'config' => $this->config)));
 				} 
 			}
 		} else {
@@ -55,7 +50,7 @@ class LazyBuilder_Collection_Building implements Iterator {
 
 	public function valid()
 	{
-		return isset($this->builders[$this->_pos]);
+		return isset($this->buildings[$this->_pos]);
 	}
 
 	public function next()
@@ -65,7 +60,7 @@ class LazyBuilder_Collection_Building implements Iterator {
 
 	public function current()
 	{
-		return $this->builders[$this->_pos];
+		return $this->buildings[$this->_pos];
 	}
 
 	public function rewind()

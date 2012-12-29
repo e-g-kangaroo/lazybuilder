@@ -1,5 +1,5 @@
 <?php
-class Bulder_Delete_Categories {
+class Building_Delete_Categories {
 
 	public function up() {
 		LazyBuilder_Taxonomy::add('category', array(

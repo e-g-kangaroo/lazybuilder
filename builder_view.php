@@ -16,6 +16,9 @@
 			$build_files = new LazyBuilder_Collection_Building();
 			foreach ($build_files as $b) :
 ?>
+			<?php if (((int) get_option(LazyBuilder::OPT_CURRENT)) == $b->num): ?>
+			<li class="doing_separator">Done</li>
+			<?php endif; ?>
 			<li>
 				<?php echo $b->num_str ?>: <a href="#" id="<?php echo $b->num ?>"><?php echo $b->name ?></a>
 			</li>
@@ -28,6 +31,9 @@
 <?php
 			}
 ?>
+			<?php if ((! get_option(LazyBuilder::OPT_CURRENT))): ?>
+			<li class="doing_separator">Never doing</li>
+			<?php endif; ?>
 		</ul>
 	</div>
 	

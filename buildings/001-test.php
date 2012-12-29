@@ -1,5 +1,5 @@
 <?php
-class Builder_Test {
+class Building_Test {
 
 	public function up($dry_run = false) {
 		LazyBuilder_Taxonomy::add('category', array(
