@@ -3,7 +3,7 @@
 	<h2>DB Builder</h2>
 
 	<div id="migration_control">
-		<h3>Current builder : <span id="current_builder"><?php echo $current; ?></span></h3>
+		<h3>Current builder : <?php echo $current->num_str; ?></h3>
 		<button id="lazy_builder_up" class="button-primary">Up</button>
 		<button id="lazy_builder_down" class="button-primary">Down</button>
 	</div>
@@ -39,8 +39,8 @@
 	
 	<div id="migration_info">
 		<div id="base">
-			<h4>Builder ID : <?php echo $current; ?></h4>
-			<h4>Title : <?php echo $info['title']; ?></h4>
+			<h4>Builder ID : <?php echo $current->num_str; ?></h4>
+			<h4>Title : <?php echo $current->name; ?></h4>
 		</div>
 
 		&nbsp;<a href="#" class="tab selected">Up</a>
@@ -48,9 +48,10 @@
 
 		<div id="details">
 			<h4><?php // echo ucwords($build_title); ?></h4>
-			<ul>
-			</ul>
+			<ul></ul>
 		</div>
-		
+
+		<input type="hidden" id="builder_info_path" value="<?php echo $current->filepath; ?>">
+
 	</div>
 </div>

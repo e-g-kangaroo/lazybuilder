@@ -14,9 +14,13 @@ include_once dirname(__FILE__). '/lazybuilder/building.php';
 include_once dirname(__FILE__). '/lazybuilder/collection/building.php';
 
 class LazyBuilder {
+
 	const OPT_CURRENT = 'lazy_builder_count';
+	
+	public $current_builder;
 
 	function __construct() {
+		get_option(self::OPT_CURRENT);
 		add_action('init', array($this, 'init'));
 		add_action('admin_head', array($this, 'head'), 11);
 		add_action('admin_menu', array($this, 'option'));
@@ -46,8 +50,10 @@ class LazyBuilder {
 		}
 	
 		$build_files = array();
+		$collection = new LazyBuilder_Collection_Building();
 		$current = get_option(self::OPT_CURRENT);
-		
+		$current = $collection->get_building($current);
+
 		include_once dirname(__FILE__) . '/builder_view.php';
 	}
 	
@@ -115,20 +121,56 @@ class LazyBuilder {
 	}
 
 	public function dry_run() {
-		if ( ! isset($_POST['builder']) || ! isset($_POST['type'])) {
+		// validation [s]
+		if ( ! isset($_POST['path']) || ! isset($_POST['type'])) {
 			echo json_encode('error : ');
 			die();
 		}
 		
-		$builder = $_POST['builder'];
+		$path = $_POST['path'];
 		$type = $_POST['type'];
 
-		if ( ! file_exists(dirname(__FILE__) . '/builders/'. $builder. '.php')) {
-			echo json_encode('Not exists builder file.');
+		if ( ! in_array($type, array('up', 'down'))) {
+			echo json_encode('Invalid type.');
 			die();
 		}
 
-		echo json_encode($_POST['type']);
+		if ( ! file_exists($path)) {
+			echo json_encode('Not exists builder file. Request file is : '. $path);
+			die();
+		}
+		// validation [e]
+
+		// make building class.
+		$class = 'Building';
+		$basename = preg_replace('/.[^.]+$/', '', basename($path));
+
+		foreach (explode('-', $basename) as $key => $val) {
+			if ($key == 0) continue;
+			
+			$class .= '_'. ucwords($val);
+		}
+		
+		try {
+			include_once $path;
+			$builder = new $class();
+		} catch (Exception $e) {
+			echo json_encode($e->getMessage());
+			die();
+		}
+
+		// dry run
+		try {
+			$builder->$type(true);
+		} catch (Exception $e) {
+			echo json_encode($e->getMessage());
+			die();
+		}
+
+		// get listener instance
+		$listener = LazyBuilder_Listener::instance();
+
+		echo json_encode($listener->parse_html());
 		die();
 	}
 }

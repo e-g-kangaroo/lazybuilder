@@ -27,12 +27,13 @@ class LazyBuilder_Building {
 				$ext = substr($file, strrpos($file, '.') + 1);
 				$num = substr($file, 0, strpos($file, '-'));
 				$name = ucfirst(substr($file, strpos($file, '-') + 1, strrpos($file, '.') - strpos($file, '-') - 1));
+				$dir = LazyBuilder::path(). 'buildings/';
 
 				$instance = new self(array(
 					'num' => (int) $num,
 					'num_str' => $num,
 					'name' => $name,
-					'filepath' => $dir.'/'.$file,
+					'filepath' => $dir. $file,
 					'classname' => ((string) $config['class_prefix']).str_replace('-', '_', $name),
 				));
 				return $instance;

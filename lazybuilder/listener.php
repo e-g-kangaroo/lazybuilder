@@ -2,7 +2,7 @@
 
 class LazyBuilder_Listener {
 
-	private static $instane;
+	private static $instance;
 	
 	private $notifications = array();
 	
@@ -29,12 +29,13 @@ class LazyBuilder_Listener {
 	public function parse_html() {
 		$html = '';
 		
-		foreach ($this->notificateions as $n) {
+		foreach ($this->notifications as $n) {
 			if ( ! isset($n['type'])) continue;
 
 			if (in_array($n['type'], array('add', 'remove', 'modify'))) {
 				$html .= '<li>';
-				$html .= '<span class="'. $n['type']. '">'. $n['change_type']. '</span>';
+				$html .= '<span class="'. $n['type']. '">'. $n['type']. '</span>';
+				$html .= $n['taxonomy'];
 				$html .= '</li>';
 			}
 		}
@@ -51,6 +52,6 @@ class LazyBuilder_Listener {
 	}
 	
 	public function dry_run() {
-		return $this->dry_run();
+		return $this->dry_run;
 	}
 }

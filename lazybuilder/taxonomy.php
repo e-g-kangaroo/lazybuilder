@@ -30,7 +30,7 @@ class LazyBuilder_Taxonomy {
 			$listener->set_dry_run((bool) $dry_run);
 			
 			if ($listener->dry_run()) { 
-				$listener->notify('add', array_merge($terms, array('taxnomy' => $taxonomy)));
+				$listener->notify('add', array_merge($terms, array('taxonomy' => $taxonomy)));
 				return;
 			}
 			
