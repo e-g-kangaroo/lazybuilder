@@ -75,23 +75,23 @@
 	border-top-right-radius: 3px;
 }
 
-.tab.selected {
+.tab.active {
 	background: #fff;
 	border: 1px solid #aaa;
 	border-bottom: 2px solid #fff;
 	z-index: 10;
 }
 
-.selected,
-.selected a {
+.active,
+.active a {
 	text-decoration: none;
 	font-weight: bold;
 	color: #333;
 	cursor: default;	
 }
 
-.selected:hover,
-.selected a:hover {
+.active:hover,
+.active a:hover {
 	color: #333;
 }
 

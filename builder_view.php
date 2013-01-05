@@ -43,8 +43,8 @@
 			<h4>Title : <?php echo $current->name; ?></h4>
 		</div>
 
-		&nbsp;<a href="#" class="tab selected">Up</a>
-		<a href="#" class="tab">Down</a>
+		&nbsp;<a href="#" class="tab active" id="up">Up</a>
+		<a href="#" class="tab" id="down">Down</a>
 
 		<div id="details">
 			<h4><?php // echo ucwords($build_title); ?></h4>
