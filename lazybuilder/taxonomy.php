@@ -37,7 +37,37 @@ class LazyBuilder_Taxonomy {
 			if ( is_wp_error($result) ) {
 				throw new Exception($result->get_error_message());
 			}
+ 
+		}
+	}
 
+	public static function modify($taxonomy, array $terms) {
+
+		if ( ! taxonomy_exists($taxonomy)) {
+			throw new Exception(__('Taxonomy doesn\'t exist.'));
+		}
+
+		foreach ( $terms as $term_identify => $term_params ) {
+
+			if ( is_string($term_identify)) {
+				$term = get_term_by('slug', $term_identify, $taxonomy, ARRAY_A);
+			} elseif ( is_int($term_identify) ) {
+				$term = get_term($term_identify, $taxonomy, ARRAY_A);
+			}
+
+			if (empty($term)) {
+				throw new Exception('Not exists '. $taxonomy. '. This term identify is : \' '. $term_identify. ' \'');
+			}
+
+			LazyBuilder_Listener::instance()
+				->notify('modify', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy), $term));
+
+			if ( ! LazyBuilder::$dry_run) {
+				$result = wp_update_term((int) $term['term_id'], $taxonomy, $term_params);
+				if ( is_wp_error($result) ) {
+					throw new Exception($result->get_error_code().$result->get_error_message().$result->get_error_data());
+				}
+			}
 		}
 	}
 
