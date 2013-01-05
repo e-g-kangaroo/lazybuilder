@@ -39,8 +39,8 @@
 	
 	<div id="building_info">
 		<div id="base">
-			<h4>Builder ID : <?php echo $next->num_str; ?></h4>
-			<h4>Title : <?php echo $next->name; ?></h4>
+			<h4>Builder ID : <span id="show_builder_id"><?php echo $next->num_str; ?></span></h4>
+			<h4>Title : <span id="show_builder_title"><?php echo $next->name; ?></span></h4>
 		</div>
 
 		&nbsp;<a href="#" class="tab active" id="up">Up</a>

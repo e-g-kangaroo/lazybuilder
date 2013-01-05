@@ -45,6 +45,17 @@ jQuery(function() {
 
 		return false;
 	});
+	
+	jQuery('#buildings ul li a').live('click', function() {
+		var id = jQuery(this).attr('id');
+		var title = jQuery(this).html();
+
+		jQuery('#builder_num').val(id);
+		jQuery('#show_builder_id').html( ('00' + id).slice(-3) );
+		jQuery('#show_builder_title').html(title);
+		draw_modification(id, 'up');
+		return false;
+	});
 });
 
 function draw_modification(num, type) {
