@@ -76,9 +76,9 @@ class LazyBuilder {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 
-		$next = LazyBuilder_Building::make('num', array('num' => get_option(self::OPT_CURRENT) + 1))
-			->include_building()
-			->instance();
+		$next = LazyBuilder_Building::make('num', array('num' => get_option(self::OPT_CURRENT) + 1));
+//			->include_building()
+//			->instance();
 
 		include_once dirname(__FILE__) . '/builder_view.php';
 	}

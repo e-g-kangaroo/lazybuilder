@@ -46,6 +46,13 @@ class LazyBuilder_Taxonomy {
 
 		foreach ( $terms as $term_identify => $term_params ) {
 
+			LazyBuilder_Listener::instance()
+				->notify('modify', 'Taxonomy', compact('taxonomy', 'term_identify'));
+
+			if (LazyBuilder::is_dry_run()) {
+				continue;
+			}
+
 			if ( is_string($term_identify)) {
 				$term = get_term_by('slug', $term_identify, $taxonomy, ARRAY_A);
 			} elseif ( is_int($term_identify) ) {
@@ -56,14 +63,9 @@ class LazyBuilder_Taxonomy {
 				throw new Exception('Not exists '. $taxonomy. '. This term identify is : \' '. $term_identify. ' \'');
 			}
 
-			LazyBuilder_Listener::instance()
-				->notify('modify', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy), $term));
-
-			if ( ! LazyBuilder::is_dry_run()) {
-				$result = wp_update_term((int) $term['term_id'], $taxonomy, $term_params);
-				if ( is_wp_error($result) ) {
-					throw new Exception($result->get_error_code().$result->get_error_message().$result->get_error_data());
-				}
+			$result = wp_update_term((int) $term['term_id'], $taxonomy, $term_params);
+			if ( is_wp_error($result) ) {
+				throw new Exception($result->get_error_code().$result->get_error_message().$result->get_error_data());
 			}
 		}
 	}
@@ -75,6 +77,13 @@ class LazyBuilder_Taxonomy {
 		}
 
 		foreach ( $terms as $term_identify ) {
+
+			$listener = LazyBuilder_Listener::instance();
+			$listener->notify('remove', 'Taxonomy', compact('taxonomy', 'term_identify'));
+
+			if (LazyBuilder::is_dry_run()) { 
+				continue;
+			}
 
 			if ( is_string($term_identify)) {
 				$term = get_term_by('slug', $term_identify, $taxonomy);
@@ -92,12 +101,6 @@ class LazyBuilder_Taxonomy {
 				throw new Exception('Not exists '. $taxonomy. '. This term identify is : \' '. $term_identify. ' \'');
 			}
 
-			$listener = LazyBuilder_Listener::instance();
-
-			if (LazyBuilder::is_dry_run()) { 
-				$listener->notify('remove', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy)));
-				continue;
-			}
 
 			$result = wp_delete_term($term_id, $taxonomy);
 
