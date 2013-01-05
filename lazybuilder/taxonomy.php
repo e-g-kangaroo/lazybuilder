@@ -45,24 +45,18 @@ class LazyBuilder_Taxonomy {
 		}
 
 		foreach ( $terms as $term_identify ) {
-			if ( is_string($term_identify)) {
-				$term = get_term_by('slug', $term_identify, $taxonomy);
-
-				if (empty($term)) {
-					throw new Exception('Not exists '. $taxonomy. '. This term identify is : \' '. $term_identify. ' \'');
-				}
-
-				$term_id = $term->term_id;
-			} elseif ( is_int($term_identify) ) {
-				$term_id = $term_identify;
-			} else {
-				throw new Exception('Invalid term identify.');
-			}
-
 			$listener = LazyBuilder_Listener::instance();
-			$listener->notify('remove', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy)));
+			$listener->notify('remove', 'Taxonomy', compact('taxonomy', 'term_identify'));
 
 			if ( ! LazyBuilder::is_dry_run() ) {
+				if ( is_string($term_identify)) {
+					$term_id = get_term_by('slug', $term_identify, $taxonomy)->term_id;
+				} elseif ( is_int($term_identify) ) {
+					$term_id = $term_identify;
+				} else {
+					throw new Exception('Invalid term identify.');
+				}
+	
 				$result = wp_delete_term($term_id, $taxonomy);
 
 				if ( is_wp_error($result) ) {

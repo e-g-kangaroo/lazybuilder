@@ -51,7 +51,7 @@
 			<ul></ul>
 		</div>
 
-		<input type="hidden" id="builder_num" value="<?php echo $next->num + 1; ?>">
+		<input type="hidden" id="builder_num" value="<?php echo $next->num; ?>">
 
 	</div>
 </div>
