@@ -7,20 +7,12 @@ class LazyBuilder_Collection_Building implements Iterator {
 	private $_pos = 0;
 
 	public function __construct($config = array()) {
-
-		$default = array(
-			'buildings_dir' => LazyBuilder::path().'buildings',
-			'class_prefix' => 'Building_'
-		);
-
-		$this->config = array_merge($default, $config);
-
 		$this->load_buildings();
 	}
 
 	protected function load_buildings() {
 
-		$dir = $this->config['buildings_dir'];
+		$dir = LazyBuilder::config('buildings_dir');
 		$this->buildings = array();
 
 		if ( is_dir($dir) and $dh = opendir($dir) ) {
@@ -29,7 +21,7 @@ class LazyBuilder_Collection_Building implements Iterator {
 				$num = substr($file, 0, strpos($file, '-'));
 
 				if ( $ext == 'php' and preg_match('/[0-9]{3}/', $num) ) {
-					array_unshift($this->buildings, LazyBuilder_Building::make('filename', array('file' => $file, 'config' => $this->config)));
+					array_unshift($this->buildings, LazyBuilder_Building::make('filename', array('file' => $file)));
 				} 
 			}
 		} else {

@@ -8,6 +8,7 @@ Author URI: http://www.clustium.com
 
 $lazy_builder = new LazyBuilder;
 
+
 class LazyBuilder {
 
 	const OPT_CURRENT = 'lazy_builder_count';
@@ -15,6 +16,8 @@ class LazyBuilder {
 	public $current_builder;
 	
 	private static $dry_run = false;
+
+	protected static $config = array();
 
 	function __construct() {
 		get_option(self::OPT_CURRENT);
@@ -32,6 +35,17 @@ class LazyBuilder {
 		if (get_option(self::OPT_CURRENT) == false) {
 			update_option(self::OPT_CURRENT, 0);
 		}
+
+		global $lazybuilder_config;
+
+		if ( empty($lazybuilder_config)) $lazybuilder_config = array();
+
+		$default = array(
+			'buildings_dir' => LazyBuilder::path().'buildings',
+			'class_prefix' => 'Building_'
+		);
+
+		self::$config = array_merge($default, $lazybuilder_config);
 	}
 	
 	function load($class)
@@ -61,10 +75,10 @@ class LazyBuilder {
 		if ( ! current_user_can('manage_options')) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
-	
-		$build_files = array();
-		$collection = new LazyBuilder_Collection_Building();
-		$next = $collection->get_building(get_option(self::OPT_CURRENT) + 1);
+
+		$next = LazyBuilder_Building::make('num', array('num' => get_option(self::OPT_CURRENT) + 1))
+			->include_building()
+			->instance();
 
 		include_once dirname(__FILE__) . '/builder_view.php';
 	}
@@ -73,18 +87,12 @@ class LazyBuilder {
 		$current = get_option(self::OPT_CURRENT);
 		$next = $current + 1;
 
-		if ( ! file_exists(dirname(__FILE__) . '/builders/'. $next. '.php')) {
-			echo json_encode('Not exists builder file.');
-			die();
-		}
+		$building = LazyBuilder_Building::make('num', array('num' => $next))
+			->include_building()
+			->instance();
 
-		include_once dirname(__FILE__) . '/builders/'. $next. '.php';
-
-		$class = 'LazyBuilder_'. $next;
-		$builder = new $class();
-		
 		try {
-			$builder->up();
+			$building->up();
 		} catch (Exception $e) {
 			echo json_encode($e->getMessage());
 			die();
@@ -99,19 +107,13 @@ class LazyBuilder {
 	
 	function call_down() {
 		$current = get_option(self::OPT_CURRENT);
-		
-		if ( ! file_exists(dirname(__FILE__) . '/builders/'. $current. '.php')) {
-			echo json_encode('Not exists builder file.');
-			die();
-		}
 
-		include_once dirname(__FILE__) . '/builders/'. $current. '.php';
-		$class = 'LazyBuilder_'. $current;
-
-		$builder = new $class();
+		$building = LazyBuilder_Building::make('num', array('num' => $current))
+			->include_building()
+			->instance();
 
 		try {
-			$builder->down();
+			$building->down();
 		} catch (Exception $e) {
 			echo json_encode($e->getMessage());
 			die();
@@ -123,13 +125,17 @@ class LazyBuilder {
 			update_option(self::OPT_CURRENT, (int) $current - 1);
 			$json = 'Builder down to '. get_option(self::OPT_CURRENT);
 		}
-		
+
 		echo json_encode($json);
 		die();
 	}
 
 	public static function path() {
 		return plugin_dir_path(__FILE__);
+	}
+
+	public static function config($name) {
+		return self::$config[$name];
 	}
 
 	public function dry_run() {
@@ -173,7 +179,7 @@ class LazyBuilder {
 		echo json_encode($listener->parse_html());
 		die();
 	}
-	
+
 	public static function set_dry_run($dry_run) {
 		self::$dry_run = (bool) $dry_run;
 	}
