@@ -19,10 +19,6 @@ class Building_Add_Categories {
 				'name' => 'とうろく',
 			),
 		));
-
-		LazyBuilder_Taxonomy::remove('category', array(
-			'cat_a'
-		));
 	}
 	
 	public function down() {

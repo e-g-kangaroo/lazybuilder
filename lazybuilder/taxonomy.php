@@ -28,7 +28,7 @@ class LazyBuilder_Taxonomy {
 			$listener = LazyBuilder_Listener::instance();
 			$listener->notify('add', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy), $term));
 
-			if ( ! LazyBuilder::$dry_run ) {
+			if ( ! LazyBuilder::is_dry_run() ) {
 				$result = wp_insert_term($name, $taxonomy, $term);
 				if ( is_wp_error($result) ) {
 					throw new Exception($result->get_error_message());
@@ -59,7 +59,7 @@ class LazyBuilder_Taxonomy {
 			LazyBuilder_Listener::instance()
 				->notify('modify', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy), $term));
 
-			if ( ! LazyBuilder::$dry_run) {
+			if ( ! LazyBuilder::is_dry_run()) {
 				$result = wp_update_term((int) $term['term_id'], $taxonomy, $term_params);
 				if ( is_wp_error($result) ) {
 					throw new Exception($result->get_error_code().$result->get_error_message().$result->get_error_data());
@@ -94,7 +94,7 @@ class LazyBuilder_Taxonomy {
 
 			$listener = LazyBuilder_Listener::instance();
 
-			if (LazyBuilder::$dry_run) { 
+			if (LazyBuilder::is_dry_run()) { 
 				$listener->notify('remove', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy)));
 				continue;
 			}

@@ -15,7 +15,7 @@ class LazyBuilder {
 	
 	public $current_builder;
 	
-	public static $dry_run = false;
+	private static $dry_run = false;
 
 	protected static $config = array();
 
@@ -76,9 +76,7 @@ class LazyBuilder {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 
-		$current_num = get_option(self::OPT_CURRENT);
-
-		$current = LazyBuilder_Building::make('num', array('num' => $current_num))
+		$next = LazyBuilder_Building::make('num', array('num' => get_option(self::OPT_CURRENT) + 1))
 			->include_building()
 			->instance();
 
@@ -157,7 +155,7 @@ class LazyBuilder {
 		// validation [e]
 
 		// get listener instance
-		self::$dry_run = true;
+		self::set_dry_run(true);
 		$listener = LazyBuilder_Listener::instance();
 
 		try {
@@ -180,5 +178,13 @@ class LazyBuilder {
 
 		echo json_encode($listener->parse_html());
 		die();
+	}
+
+	public static function set_dry_run($dry_run) {
+		self::$dry_run = (bool) $dry_run;
+	}
+	
+	public static function is_dry_run() {
+		return self::$dry_run;
 	}
 }

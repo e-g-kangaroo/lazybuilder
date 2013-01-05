@@ -38,7 +38,7 @@ jQuery(function() {
 			return false;
 		}
 		
-		draw_modification(2, jQuery(this).attr('id'));
+		draw_modification(jQuery('#builder_num').val(), jQuery(this).attr('id'));
 
 		jQuery('a.tab').removeClass('active');
 		jQuery(this).addClass('active');
@@ -49,6 +49,7 @@ jQuery(function() {
 
 function draw_modification(num, type) {
 	jQuery('#details ul').empty();
+
 	jQuery.ajax({
 		url: ajaxurl,
 		data: {
