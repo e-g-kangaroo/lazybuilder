@@ -64,11 +64,7 @@ class LazyBuilder {
 	
 		$build_files = array();
 		$collection = new LazyBuilder_Collection_Building();
-		$current_num = get_option(self::OPT_CURRENT);
-
-		if ( $current_num ) {
-			$current = $collection->get_building($current_num);
-		}
+		$next = $collection->get_building(get_option(self::OPT_CURRENT) + 1);
 
 		include_once dirname(__FILE__) . '/builder_view.php';
 	}
@@ -153,7 +149,7 @@ class LazyBuilder {
 		// validation [e]
 
 		// get listener instance
-		self::$dry_run = true;
+		self::set_dry_run(true);
 		$listener = LazyBuilder_Listener::instance();
 
 		try {
