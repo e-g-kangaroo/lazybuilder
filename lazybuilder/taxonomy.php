@@ -27,7 +27,7 @@ class LazyBuilder_Taxonomy {
 
 			$listener = LazyBuilder_Listener::instance();
 
-			if (LazyBuilder::$dry_run) {
+			if ( LazyBuilder::is_dry_run() ) {
 				$listener->notify('add', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy), $term));
 				continue;
 			}
@@ -64,7 +64,7 @@ class LazyBuilder_Taxonomy {
 
 			$listener = LazyBuilder_Listener::instance();
 
-			if (LazyBuilder::$dry_run) { 
+			if ( LazyBuilder::is_dry_run() ) {
 				$listener->notify('remove', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy)));
 				continue;
 			}

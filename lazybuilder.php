@@ -14,7 +14,7 @@ class LazyBuilder {
 	
 	public $current_builder;
 	
-	public static $dry_run = false;
+	private static $dry_run = false;
 
 	function __construct() {
 		get_option(self::OPT_CURRENT);
@@ -176,5 +176,13 @@ class LazyBuilder {
 
 		echo json_encode($listener->parse_html());
 		die();
+	}
+	
+	public static function set_dry_run($dry_run) {
+		self::$dry_run = (bool) $dry_run;
+	}
+	
+	public static function is_dry_run() {
+		return self::$dry_run;
 	}
 }
