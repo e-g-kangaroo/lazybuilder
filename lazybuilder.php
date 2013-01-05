@@ -13,6 +13,8 @@ class LazyBuilder {
 	const OPT_CURRENT = 'lazy_builder_count';
 	
 	public $current_builder;
+	
+	public static $dry_run = false;
 
 	function __construct() {
 		get_option(self::OPT_CURRENT);
@@ -151,7 +153,7 @@ class LazyBuilder {
 		// validation [e]
 
 		// get listener instance
-		LazyBuilder_Listener::$dry_run = true;
+		self::$dry_run = true;
 		$listener = LazyBuilder_Listener::instance();
 
 		try {

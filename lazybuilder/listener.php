@@ -2,8 +2,6 @@
 
 class LazyBuilder_Listener {
 
-	public static $dry_run = false;
-
 	private static $instance;
 	
 	private $notifications = array();
