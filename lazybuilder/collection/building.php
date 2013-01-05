@@ -40,6 +40,16 @@ class LazyBuilder_Collection_Building implements Iterator {
 		throw new Exception('Unknown builder');
 	}
 
+	public function is_exists($num) {
+		try {
+			$this->get_building($num);
+		} catch (Exception $e) {
+			return false;
+		}
+		
+		return true;
+	}
+
 	public function valid()
 	{
 		return isset($this->buildings[$this->_pos]);

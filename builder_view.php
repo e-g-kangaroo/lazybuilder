@@ -3,7 +3,7 @@
 	<h2>DB Builder</h2>
 
 	<div id="building_control">
-		<h3>Next builder : <?php echo $next->num_str; ?></h3>
+		<h3>Next builder : <span id="next_building"><?php echo $next->num_str; ?></span></h3>
 		<button id="lazy_builder_up" class="button-primary">Up</button>
 		<button id="lazy_builder_down" class="button-primary">Down</button>
 	</div>
@@ -19,7 +19,7 @@
 			<?php if (((int) get_option(LazyBuilder::OPT_CURRENT)) == $b->num): ?>
 			<li class="doing_separator">Done</li>
 			<?php endif; ?>
-			<li>
+			<li id="building_<?php echo $b->num ?>">
 				<?php echo $b->num_str ?>: <a href="#" id="<?php echo $b->num ?>"><?php echo $b->name ?></a>
 			</li>
 <?php

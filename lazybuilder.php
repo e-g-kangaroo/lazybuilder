@@ -75,10 +75,13 @@ class LazyBuilder {
 		if ( ! current_user_can('manage_options')) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
-
+		
 		$next = LazyBuilder_Building::make('num', array('num' => get_option(self::OPT_CURRENT) + 1));
-//			->include_building()
-//			->instance();
+		$next = (object) array(
+			'num'     => -1,
+			'num_str' => 'none',
+			'name'    => 'All done',
+		);
 
 		include_once dirname(__FILE__) . '/builder_view.php';
 	}
@@ -87,20 +90,27 @@ class LazyBuilder {
 		$current = get_option(self::OPT_CURRENT);
 		$next = $current + 1;
 
-		$building = LazyBuilder_Building::make('num', array('num' => $next))
-			->include_building()
-			->instance();
+		$make = LazyBuilder_Building::make('num', array('num' => $next));
+		$building = $make->include_building()->instance();
 
 		try {
 			$building->up();
 		} catch (Exception $e) {
-			echo json_encode($e->getMessage());
+			echo json_encode(array('message' => $e->getMessage()));
 			die();
 		}
 
 		update_option(self::OPT_CURRENT, $next);
+		
+		$build_files = new LazyBuilder_Collection_Building();
 	
-		echo json_encode('Builder up to '. get_option(self::OPT_CURRENT));
+		echo json_encode(array(
+			'message' => 'Builder up to '. $next,
+			'id'      => $next,
+			'title'   => $make->name,
+			'is_last' => ! $build_files->is_exists($next + 1)
+		));
+
 		die();
 	}
 	
@@ -108,22 +118,26 @@ class LazyBuilder {
 	function call_down() {
 		$current = get_option(self::OPT_CURRENT);
 
-		$building = LazyBuilder_Building::make('num', array('num' => $current))
-			->include_building()
-			->instance();
+		$make = LazyBuilder_Building::make('num', array('num' => $current));
+		$building = $make->include_building()->instance();
 
 		try {
 			$building->down();
 		} catch (Exception $e) {
-			echo json_encode($e->getMessage());
+			echo json_encode(array('message' => $e->getMessage()));
 			die();
 		}
 
+		$json = array();
+
 		if (0 >= $current) {
-			$json = 'Oldest builder.';
+			$json['message'] = 'Oldest builder.';
 		} else {
 			update_option(self::OPT_CURRENT, (int) $current - 1);
-			$json = 'Builder down to '. get_option(self::OPT_CURRENT);
+			$json['message'] = 'Builder down to '. ((int) $current - 1);
+			$json['id']      = (int) $current - 1;
+			$json['title']   = $make->name;
+			$json['is_last'] = false;
 		}
 
 		echo json_encode($json);

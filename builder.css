@@ -45,19 +45,19 @@
 	clear: both;
 }
 
-#modufied {
+#modified {
 	clear: both;
 }
 
-#modufied h4 {
+#modified h4 {
 	margin-top: 20px;
 	padding-left: 5px;
 	border-left: 5px solid #ddd;
 	border-bottom: 1px solid #ddd;
 }
 
-#modufied ul li {
-	font-family: consolas;
+#modified ul li {
+	font-family: 'Migu 2M', 'Source Code Pro', 'consolas', 'Courier', 'Courier New';
 }
 
 /* =================================================
@@ -103,7 +103,7 @@ span.remove {
 	border-radius: 10px;
 	font-weight: bold;
 	box-shadow: 0 0 3px 1px #ddd;
-	font-family: consolas;
+	font-family: 'Migu 2M', 'Source Code Pro', 'consolas', 'Courier', 'Courier New';
 }
 
 span.add {
