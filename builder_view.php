@@ -2,13 +2,13 @@
 	<div id="icon-options-general" class="icon32"><br></div>
 	<h2>DB Builder</h2>
 
-	<div id="migration_control">
+	<div id="building_control">
 		<h3>Next builder : <?php echo $next->num_str; ?></h3>
 		<button id="lazy_builder_up" class="button-primary">Up</button>
 		<button id="lazy_builder_down" class="button-primary">Down</button>
 	</div>
 
-	<div id="migrations">
+	<div id="buildings">
 		<h3>Build files</h3>
 		<ul>
 <?php
@@ -37,7 +37,7 @@
 		</ul>
 	</div>
 	
-	<div id="migration_info">
+	<div id="building_info">
 		<div id="base">
 			<h4>Builder ID : <?php echo $next->num_str; ?></h4>
 			<h4>Title : <?php echo $next->name; ?></h4>

@@ -1,4 +1,4 @@
-#migration_control {
+#building_control {
 	margin-top: 30px;
 	padding-bottom: 20px;
 	border-bottom: 1px dotted #ccc;
@@ -7,12 +7,12 @@
 /* =================================================
 // マイグレータのリストに関するスタイル
 ================================================= */
-#migrations, #migration_info {
+#buildings, #building_info {
 	float: left;
 	padding-top: 10px;
 }
 
-#migrations {
+#buildings {
 	width: 15%;
 }
 
@@ -25,7 +25,7 @@
 /* =================================================
 // マイグレータの情報表示に関するスタイル
 ================================================= */
-#migration_info {
+#building_info {
 	width: 83%;
 	padding-left: 1%;
 }
@@ -41,7 +41,7 @@
 	border-radius: 3px;
 }
 
-#migration_info h4 {
+#building_info h4 {
 	clear: both;
 }
 
