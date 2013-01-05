@@ -65,7 +65,7 @@ class LazyBuilder {
 		$current_num = get_option(self::OPT_CURRENT);
 
 		if ( $current_num ) {
-			$current = $collection->get_building();
+			$current = $collection->get_building($current_num);
 		}
 
 		include_once dirname(__FILE__) . '/builder_view.php';
@@ -151,8 +151,8 @@ class LazyBuilder {
 		// validation [e]
 
 		// get listener instance
+		LazyBuilder_Listener::$dry_run = true;
 		$listener = LazyBuilder_Listener::instance();
-		$listener->set_dry_run(true);
 
 		try {
 			$buildings = new LazyBuilder_Collection_Building();

@@ -2,12 +2,12 @@
 
 class LazyBuilder_Listener {
 
+	public static $dry_run = false;
+
 	private static $instance;
 	
 	private $notifications = array();
 	
-	private $dry_run = false;
-
 	private function __construct() {}
 
 	public static function instance() {
@@ -66,17 +66,5 @@ class LazyBuilder_Listener {
 		}
 
 		return $html;
-	}
-
-	public function set_dry_run($flag) {
-		if ( ! is_bool($flag)) {
-			throw new InvalidArgumentException('set_dry_run function only accepts boolean. Input was: '. $flag);
-		}
-
-		$this->dry_run = $flag;
-	}
-	
-	public function dry_run() {
-		return $this->dry_run;
 	}
 }

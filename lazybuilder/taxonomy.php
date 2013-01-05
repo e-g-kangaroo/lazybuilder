@@ -27,11 +27,11 @@ class LazyBuilder_Taxonomy {
 
 			$listener = LazyBuilder_Listener::instance();
 
-			if ($listener->dry_run()) { 
+			if (LazyBuilder_Listener::$dry_run) {
 				$listener->notify('add', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy), $term));
 				continue;
 			}
-			
+
 			$result = wp_insert_term($name, $taxonomy, $term);
 
 			if ( is_wp_error($result) ) {
@@ -64,7 +64,7 @@ class LazyBuilder_Taxonomy {
 
 			$listener = LazyBuilder_Listener::instance();
 
-			if ($listener->dry_run()) { 
+			if (LazyBuilder_Listener::$dry_run) { 
 				$listener->notify('remove', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy)));
 				continue;
 			}
