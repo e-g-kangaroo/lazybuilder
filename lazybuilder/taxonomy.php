@@ -26,18 +26,15 @@ class LazyBuilder_Taxonomy {
 			unset($term['name']);
 
 			$listener = LazyBuilder_Listener::instance();
+			$listener->notify('add', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy), $term));
 
-			if ( LazyBuilder::is_dry_run() ) {
-				$listener->notify('add', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy), $term));
-				continue;
+			if ( ! LazyBuilder::is_dry_run() ) {
+				$result = wp_insert_term($name, $taxonomy, $term);
+	
+				if ( is_wp_error($result) ) {
+					throw new Exception($result->get_error_message());
+				}
 			}
-
-			$result = wp_insert_term($name, $taxonomy, $term);
-
-			if ( is_wp_error($result) ) {
-				throw new Exception($result->get_error_message());
-			}
-
 		}
 	}
 
@@ -63,16 +60,14 @@ class LazyBuilder_Taxonomy {
 			}
 
 			$listener = LazyBuilder_Listener::instance();
+			$listener->notify('remove', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy)));
 
-			if ( LazyBuilder::is_dry_run() ) {
-				$listener->notify('remove', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy)));
-				continue;
-			}
+			if ( ! LazyBuilder::is_dry_run() ) {
+				$result = wp_delete_term($term_id, $taxonomy);
 
-			$result = wp_delete_term($term_id, $taxonomy);
-
-			if ( is_wp_error($result) ) {
-				throw new Exception($result->get_error_message());
+				if ( is_wp_error($result) ) {
+					throw new Exception($result->get_error_message());
+				}
 			}
 		}
 	}
