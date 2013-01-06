@@ -2,6 +2,7 @@
 class Building_Test {
 
 	public function up() {
+
 		LazyBuilder_Taxonomy::add('category', array(
 			'cat_a' => array(
 				'name' => 'なまえ',
@@ -10,6 +11,7 @@ class Building_Test {
 	}
 	
 	public function down() {
+
 		LazyBuilder_Taxonomy::remove('category', array(
 			'cat_a'
 		));

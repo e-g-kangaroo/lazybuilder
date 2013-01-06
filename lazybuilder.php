@@ -20,6 +20,7 @@ class LazyBuilder {
 	protected static $config = array();
 
 	function __construct() {
+
 		get_option(self::OPT_CURRENT);
 		add_action('init', array($this, 'init'));
 		add_action('admin_head', array($this, 'head'), 11);
@@ -32,6 +33,7 @@ class LazyBuilder {
 	}
 	
 	function init() {
+
 		if (get_option(self::OPT_CURRENT) == false) {
 			update_option(self::OPT_CURRENT, 0);
 		}
@@ -48,8 +50,8 @@ class LazyBuilder {
 		self::$config = array_merge($default, $lazybuilder_config);
 	}
 	
-	function load($class)
-	{
+	function load($class) {
+
 		static $classes = array(
 			'LazyBuilder_Listener' => '/lazybuilder/listener.php',
 			'LazyBuilder_Taxonomy' => '/lazybuilder/taxonomy.php',
@@ -63,15 +65,18 @@ class LazyBuilder {
 	}
 	
 	function head() {
+
 		echo '<link rel="stylesheet" type="text/css" media="all" href="'. plugin_dir_url( __FILE__ ). '/builder.css" />';
 		echo '<script type="text/javascript" src="'. plugin_dir_url( __FILE__ ). '/builder.js"></script>';
 	}
 
 	function option() {
+
 		add_options_page('Lazy builder.', 'Lazy builder', 'manage_options', 'lazy-builder', array($this, 'view'));
 	}
 	
 	function view() {
+
 		if ( ! current_user_can('manage_options')) {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
@@ -94,6 +99,7 @@ class LazyBuilder {
 	}
 	
 	function call_up() {
+
 		$current = get_option(self::OPT_CURRENT);
 		$next = $current + 1;
 
@@ -123,6 +129,7 @@ class LazyBuilder {
 	
 	
 	function call_down() {
+
 		$current = get_option(self::OPT_CURRENT);
 
 		$make = LazyBuilder_Building::make('num', array('num' => $current));
@@ -152,14 +159,17 @@ class LazyBuilder {
 	}
 
 	public static function path() {
+
 		return plugin_dir_path(__FILE__);
 	}
 
 	public static function config($name) {
+
 		return self::$config[$name];
 	}
 
 	public function dry_run() {
+
 		// validation [s]
 		if ( ! isset($_POST['num']) || ! isset($_POST['type'])) {
 			echo json_encode('error : ');
@@ -202,10 +212,12 @@ class LazyBuilder {
 	}
 
 	public static function set_dry_run($dry_run) {
+
 		self::$dry_run = (bool) $dry_run;
 	}
 	
 	public static function is_dry_run() {
+
 		return self::$dry_run;
 	}
 }

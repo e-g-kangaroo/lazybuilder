@@ -9,6 +9,7 @@ class LazyBuilder_Listener {
 	private function __construct() {}
 
 	public static function instance() {
+
 		if (empty(self::$instance)) {
 			self::$instance = new self;
 		}
@@ -17,6 +18,7 @@ class LazyBuilder_Listener {
 	}
 
 	public function notify($type, $lazybuilder, $args) {
+
 		if ( ! isset($type) ) {
 			throw new Exception(__('\'type\' is required.'));
 		}
@@ -29,6 +31,7 @@ class LazyBuilder_Listener {
 	}
 	
 	public function parse_html() {
+
 		$html = '';
 		
 		foreach ($this->notifications as $n) {
@@ -54,6 +57,7 @@ class LazyBuilder_Listener {
 	}
 	
 	public function parse_html_taxonomy($args) {
+
 		$html = '';
 		unset($args['lazybuilder'], $args['type']);
 

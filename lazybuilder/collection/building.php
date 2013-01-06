@@ -3,10 +3,13 @@
 class LazyBuilder_Collection_Building implements Iterator {
 
 	protected $config = array();
+
 	protected $buildings = array();
+
 	private $_pos = 0;
 
 	public function __construct($config = array()) {
+
 		$this->load_buildings();
 	}
 
@@ -29,8 +32,8 @@ class LazyBuilder_Collection_Building implements Iterator {
 		}
 	}
 
-	public function & get_building($num)
-	{
+	public function & get_building($num) {
+
 		$num = (int) $num;
 
 		foreach ($this as $builder) {
@@ -41,6 +44,7 @@ class LazyBuilder_Collection_Building implements Iterator {
 	}
 
 	public function is_exists($num) {
+
 		try {
 			$this->get_building($num);
 		} catch (Exception $e) {
@@ -50,28 +54,28 @@ class LazyBuilder_Collection_Building implements Iterator {
 		return true;
 	}
 
-	public function valid()
-	{
+	public function valid() {
+
 		return isset($this->buildings[$this->_pos]);
 	}
 
-	public function next()
-	{
+	public function next() {
+
 		$this->_pos++;
 	}
 
-	public function current()
-	{
+	public function current() {
+
 		return $this->buildings[$this->_pos];
 	}
 
-	public function rewind()
-	{
+	public function rewind() {
+
 		$this->_pos = 0;
 	}
 
-	public function key()
-	{
+	public function key() {
+
 		return $this->_pos;
 	}
 }

@@ -1,6 +1,6 @@
 <div class="wrap">
 	<div id="icon-options-general" class="icon32"><br></div>
-	<h2>DB Builder</h2>
+	<h2>LazyBuilder</h2>
 
 	<div id="building_control">
 		<h3>Next builder : <span id="next_building"><?php echo $next->num_str; ?></span></h3>

@@ -3,9 +3,13 @@
 class LazyBuilder_Building {
 
 	protected $num;
+
 	protected $num_str;
+
 	protected $name;
+
 	protected $filepath;
+
 	protected $classname;
 
 	public function __construct($param = array()) {
@@ -45,13 +49,13 @@ class LazyBuilder_Building {
 		return $instance;
 	}
 
-	protected static function make_by_filename($file)
-	{
+	protected static function make_by_filename($file) {
+
 		return rtrim(LazyBuilder::config('buildings_dir'), '/') . '/' . $file;
 	}
 
-	protected static function make_by_num($num)
-	{
+	protected static function make_by_num($num) {
+
 		$dir = LazyBuilder::config('buildings_dir');
 
 		if ( is_dir($dir) and $dh = opendir($dir) ) {
@@ -70,8 +74,8 @@ class LazyBuilder_Building {
 		return in_array($name, array('num', 'num_str', 'name', 'filepath', 'classname'));
 	}
 
-	public function include_building()
-	{
+	public function include_building() {
+
 		include_once($this->filepath);
 
 		if ( ! class_exists($this->classname)) {
@@ -81,8 +85,8 @@ class LazyBuilder_Building {
 		return $this;
 	}
 
-	public function instance()
-	{
+	public function instance() {
+
 		$classname = $this->classname;
 		return new $classname();
 	}
