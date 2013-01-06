@@ -76,12 +76,19 @@ class LazyBuilder {
 			wp_die(__('You do not have sufficient permissions to access this page.'));
 		}
 		
-		$next = LazyBuilder_Building::make('num', array('num' => get_option(self::OPT_CURRENT) + 1));
+		$next_num = get_option(self::OPT_CURRENT) + 1;
+
 		$next = (object) array(
 			'num'     => -1,
 			'num_str' => 'none',
 			'name'    => 'All done',
 		);
+
+		$build_files = new LazyBuilder_Collection_Building();
+
+		if ($build_files->is_exists($next_num)) {
+			$next = LazyBuilder_Building::make('num', array('num' => $next_num));
+		}
 
 		include_once dirname(__FILE__) . '/builder_view.php';
 	}
