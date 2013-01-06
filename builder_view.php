@@ -39,7 +39,7 @@
 	
 	<div id="building_info">
 		<div id="base">
-			<h4>Builder ID : <span id="show_building_id"><?php echo $next->num_str; ?></span></h4>
+			<h4>Building ID : <span id="show_building_id"><?php echo $next->num_str; ?></span></h4>
 			<h4>Title : <span id="show_building_title"><?php echo $next->name; ?></span></h4>
 		</div>
 
@@ -51,7 +51,7 @@
 			<ul></ul>
 		</div>
 
-		<input type="hidden" id="builder_num" value="<?php echo $next->num; ?>">
+		<input type="hidden" id="building_num" value="<?php echo $next->num; ?>">
 
 	</div>
 </div>

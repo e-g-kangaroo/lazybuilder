@@ -36,8 +36,8 @@ class LazyBuilder_Collection_Building implements Iterator {
 
 		$num = (int) $num;
 
-		foreach ($this as $builder) {
-			if ( $builder->num == $num ) return $builder;
+		foreach ($this as $building) {
+			if ( $building->num == $num ) return $building;
 		}
 
 		throw new Exception('Unknown builder');

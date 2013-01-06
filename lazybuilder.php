@@ -13,8 +13,6 @@ class LazyBuilder {
 
 	const OPT_CURRENT = 'lazy_builder_count';
 	
-	public $current_builder;
-	
 	private static $dry_run = false;
 
 	protected static $config = array();

@@ -65,14 +65,14 @@ jQuery(function() {
 					this.modify(num, type);
 				}
 
-				jQuery('#builder_num').val(num);
+				jQuery('#building_num').val(num);
 				jQuery('#next_building, #show_building_id').html(zero_padding_num);
 				jQuery('#show_building_title').html(title);
 			},
 		}
 	};
 
-	lb.refresh.modify(jQuery('#builder_num').val(), lb.tab.active);
+	lb.refresh.modify(jQuery('#building_num').val(), lb.tab.active);
 
 	jQuery('#lazy_builder_up, #lazy_builder_down').live('click', function () {
 		var type = jQuery(this).attr('id').replace('lazy_builder_', '');
@@ -98,7 +98,7 @@ jQuery(function() {
 			return false;
 		}
 		
-		lb.refresh.modify(jQuery('#builder_num').val(), jQuery(this).attr('id'));
+		lb.refresh.modify(jQuery('#building_num').val(), jQuery(this).attr('id'));
 		lb.tab.active = jQuery(this).attr('id');
 
 		jQuery('a.tab').removeClass('active');
