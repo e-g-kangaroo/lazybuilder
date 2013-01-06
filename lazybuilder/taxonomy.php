@@ -22,6 +22,10 @@ class LazyBuilder_Taxonomy {
 				throw new Exception(__('\'name\' is required.'));
 			}
 
+			if ( is_string($term['parent'])) {
+				$term['parent'] = get_term_by('slug', $term['parent'], $taxonomy)->term_id;
+			}
+
 			$name = $term['name'];
 			unset($term['name']);
 
