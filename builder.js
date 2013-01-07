@@ -53,6 +53,14 @@ jQuery(function() {
 					}
 				});
 			},
+			'detail_area' : function(num, title, type, is_last) {
+				var zero_padding_num = ('00' + num).slice(-3);
+
+				jQuery('#building_num').val(num);
+				jQuery('#show_building_id').html(zero_padding_num);
+				jQuery('#show_building_title').html(title);
+				this.modify(num, type);
+			},
 			'all' : function(num, title, type, is_last) {
 				var zero_padding_num = ('00' + num).slice(-3);
 
@@ -111,7 +119,7 @@ jQuery(function() {
 		var id = jQuery(this).attr('id');
 		var title = jQuery(this).html();
 
-		lb.refresh.all(id, title, lb.tab.active, false);
+		lb.refresh.detail_area(id, title, lb.tab.active, false);
 		
 		return false;
 	});
