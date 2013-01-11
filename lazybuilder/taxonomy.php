@@ -22,10 +22,6 @@ class LazyBuilder_Taxonomy {
 				throw new Exception(__('\'name\' is required.'));
 			}
 
-			if ( is_string($term['parent'])) {
-				$term['parent'] = get_term_by('slug', $term['parent'], $taxonomy)->term_id;
-			}
-
 			$name = $term['name'];
 			unset($term['name']);
 
@@ -33,6 +29,10 @@ class LazyBuilder_Taxonomy {
 			$listener->notify('add', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy), $term));
 
 			if ( ! LazyBuilder::is_dry_run() ) {
+				if ( is_string($term['parent'])) {
+					$term['parent'] = get_term_by('slug', $term['parent'], $taxonomy)->term_id;
+				}
+
 				$result = wp_insert_term($name, $taxonomy, $term);
 				if ( is_wp_error($result) ) {
 					throw new Exception($result->get_error_message());
