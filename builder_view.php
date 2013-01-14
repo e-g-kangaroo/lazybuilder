@@ -14,7 +14,8 @@
 <?php
 			try {
 			$build_files = new LazyBuilder_Collection_Building();
-			foreach ($build_files as $b) :
+			
+			foreach ($build_files->sort_desc() as $b) :
 ?>
 			<?php if (((int) get_option(LazyBuilder::OPT_CURRENT)) == $b->num): ?>
 			<li class="doing_separator">Done</li>

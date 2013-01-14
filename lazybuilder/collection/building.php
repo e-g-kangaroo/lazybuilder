@@ -24,7 +24,7 @@ class LazyBuilder_Collection_Building implements Iterator {
 				$num = substr($file, 0, strpos($file, '-'));
 
 				if ( $ext == 'php' and preg_match('/[0-9]{3}/', $num) ) {
-					array_unshift($this->buildings, LazyBuilder_Building::make('filename', array('file' => $file)));
+					$this->buildings[(int) $num - 1] = LazyBuilder_Building::make('filename', array('file' => $file));
 				} 
 			}
 		} else {
@@ -52,6 +52,20 @@ class LazyBuilder_Collection_Building implements Iterator {
 		}
 		
 		return true;
+	}
+
+	public function sort_desc()
+	{
+		$new_buildings = array();
+
+		foreach ($this as $num => $building)
+		{
+			$new_buildings[$num] = $building;
+		}
+
+		$this->buildings = array_reverse($new_buildings);
+
+		return $this;
 	}
 
 	public function valid() {
