@@ -1,4 +1,4 @@
-<div class="wrap">
+<div id="lazybuilder-panel" class="wrap">
 	<div id="icon-options-general" class="icon32"><br></div>
 	<h2>LazyBuilder</h2>
 

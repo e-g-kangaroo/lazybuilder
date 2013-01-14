@@ -1,19 +1,20 @@
-#building_control {
+#lazybuilder-panel #building_control {
 	margin-top: 30px;
 	padding-bottom: 20px;
 	border-bottom: 1px dotted #ccc;
 }
 
-#buildings, #building_info {
+#lazybuilder-panel #buildings,
+#lazybuilder-panel #building_info {
 	float: left;
 	padding-top: 10px;
 }
 
-#buildings {
+#lazybuilder-panel #buildings {
 	width: 15%;
 }
 
-.doing_separator {
+#lazybuilder-panel .doing_separator {
 	border-top: solid 3px #eeeeee;
 	text-align: center;
 	font-size: smaller;
@@ -22,42 +23,42 @@
 /* =================================================
 // 
 ================================================= */
-#building_info {
+#lazybuilder-panel #building_info {
 	width: 83%;
 	padding-left: 1%;
 }
 
-#base {
+#lazybuilder-panel #base {
 	margin-bottom: 30px;
 }
 
-#details {
+#lazybuilder-panel #details {
 	clear: both;
 	padding: 15px 20px;
 	border: 1px solid #aaa;
 	border-radius: 3px;
 }
 
-#building_info h4 {
+#lazybuilder-panel #building_info h4 {
 	clear: both;
 }
 
-#modified {
+#lazybuilder-panel #modified {
 	clear: both;
 }
 
-#modified h4 {
+#lazybuilder-panel #modified h4 {
 	margin-top: 20px;
 	padding-left: 5px;
 	border-left: 5px solid #ddd;
 	border-bottom: 1px solid #ddd;
 }
 
-#modified ul li {
+#lazybuilder-panel #modified ul li {
 	font-family: 'Migu 2M', 'Source Code Pro', 'consolas', 'Courier', 'Courier New';
 }
 
-.tab {
+#lazybuilder-panel .tab {
 	padding: 8px 10px;
 	font-size: 120%;
 	padding-bottom: 1px;
@@ -69,29 +70,29 @@
 	border-top-right-radius: 3px;
 }
 
-.tab.active {
+#lazybuilder-panel .tab.active {
 	background: #fff;
 	border: 1px solid #aaa;
 	border-bottom: 2px solid #fff;
 	z-index: 10;
 }
 
-.active,
-.active a {
+#lazybuilder-panel .active,
+#lazybuilder-panel .active a {
 	text-decoration: none;
 	font-weight: bold;
 	color: #333;
 	cursor: default;	
 }
 
-.active:hover,
-.active a:hover {
+#lazybuilder-panel .active:hover,
+#lazybuilder-panel .active a:hover {
 	color: #333;
 }
 
-span.add,
-span.modify,
-span.remove {
+#lazybuilder-panel span.add,
+#lazybuilder-panel span.modify,
+#lazybuilder-panel span.remove {
 	padding: 1px 8px;
 	margin-right: 10px;
 	border-radius: 10px;
@@ -100,17 +101,17 @@ span.remove {
 	font-family: 'Migu 2M', 'Source Code Pro', 'consolas', 'Courier', 'Courier New';
 }
 
-span.add {
+#lazybuilder-panel span.add {
 	background: #cfc;
 	color: #353;
 }
 
-span.modify {
+#lazybuilder-panel span.modify {
 	background: #ccf;
 	color: #338;
 }
 
-span.remove {
+#lazybuilder-panel span.remove {
 	background: #fcc;
 	color: #833;
 }
