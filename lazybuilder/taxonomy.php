@@ -23,7 +23,6 @@ class LazyBuilder_Taxonomy {
 			}
 
 			$name = $term['name'];
-			unset($term['name']);
 
 			$listener = LazyBuilder_Listener::instance();
 			$listener->notify('add', 'Taxonomy', array_merge(array('taxonomy' => $taxonomy), $term));
