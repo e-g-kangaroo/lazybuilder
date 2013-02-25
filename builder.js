@@ -48,8 +48,18 @@ jQuery(function() {
 					success: function(html){
 						jQuery('#details ul').html(html);
 					},
-					error: function(error) {
-						jQuery('#details ul').html(error);
+					error: function(res, textStatus, errorThrown) {
+						var msg = "[ Error ]<br>";
+		
+						if (textStatus) {
+							msg += 'Text Status : ' + textStatus + "<br>";
+						}
+						
+						if (errorThrown) {
+							msg += 'Error Thrown : ' + errorThrown + "<br>";
+						}
+						
+						jQuery('#details ul').html(msg);
 					}
 				});
 			},
@@ -82,7 +92,7 @@ jQuery(function() {
 
 	lb.refresh.modify(jQuery('#building_num').val(), lb.tab.active);
 
-	jQuery('#lazy_builder_up, #lazy_builder_down').live('click', function () {
+	jQuery('#lazy_builder_up, #lazy_builder_down').on('click', function () {
 		var type = jQuery(this).attr('id').replace('lazy_builder_', '');
 
 		jQuery.ajax({
@@ -95,13 +105,28 @@ jQuery(function() {
 			success: function(building){
 				lb.building_files.move_separetor(building.id, building.is_last);
 				lb.refresh.all(building.id + 1, building.title, lb.tab.active, building.is_last);
+			},
+			error: function(res, textStatus, errorThrown) {
+				var msg = "[ Error ]\n";
+
+				if (textStatus) {
+					msg += 'Status : ' + textStatus + "\n";
+				}
+				
+				if (errorThrown) {
+					msg += 'Error Thrown : ' + errorThrown + "\n";
+				}
+				
+				if (msg) {
+					alert(msg);
+				}
 			}
 		});
 
         return false;
 	});
 
-	jQuery('a.tab').live('click', function() {
+	jQuery('a.tab').on('click', function() {
 		if (jQuery(this).hasClass('active')) {
 			return false;
 		}
@@ -115,7 +140,7 @@ jQuery(function() {
 		return false;
 	});
 	
-	jQuery('#buildings ul li a').live('click', function() {
+	jQuery('#buildings ul li a').on('click', function() {
 		var id = jQuery(this).attr('id');
 		var title = jQuery(this).html();
 
