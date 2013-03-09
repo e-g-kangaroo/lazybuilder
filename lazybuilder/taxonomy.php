@@ -33,12 +33,15 @@ class LazyBuilder_Taxonomy {
 				}
 
 				$result = wp_insert_term($name, $taxonomy, $term);
+
 				if ( is_wp_error($result) ) {
 					throw new Exception($result->get_error_message());
 				}
 			}
 
 		}
+		
+		wp_cache_flush();
 	}
 
 	public static function modify($taxonomy, array $terms) {
